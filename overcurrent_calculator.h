@@ -1,5 +1,6 @@
 #ifndef OVERCURRENT_CALCULATOR_H
 #define OVERCURRENT_CALCULATOR_H
+
 enum CurveStandard {
     IEC=20,
     IEEE=30
@@ -20,7 +21,7 @@ enum IEEECurveType {
 
 
 int curve_selector(
-    int CurveStandard 
+    void
 );
 
 

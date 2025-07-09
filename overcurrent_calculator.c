@@ -4,6 +4,9 @@
 
 
 
+
+
+
 int calculate_trip_time_iec(double pickup_current,double fault_current,
     double time_multiplier_setting,int IECCurveType)
 {
