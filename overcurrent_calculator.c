@@ -20,23 +20,27 @@ int calculate_trip_time_iec(double pickup_current,double fault_current,
         printf("Invalid input values.\n");
         return -1; // Error code for invalid input
     }
+    if (fault_current <= pickup_current) {
+        printf("Fault current is at or below pickup: the relay will not trip.\n");
+        return -3; // Error code for no trip
+    }
 
     switch (IECCurveType) 
     {
     case 0: // Inverse
-    trip_time = (.14 / (pow((pickup_current / fault_current),.02)-1)) * time_multiplier_setting;
+    trip_time = (.14 / (pow((fault_current / pickup_current),.02)-1)) * time_multiplier_setting;
     printf("Trip time (Inverse): %.2f seconds\n", trip_time);
     break;
     case 1: // Very Inverse
-    trip_time = (13.5 / (pow((pickup_current / fault_current), 1) - 1)) * time_multiplier_setting;
+    trip_time = (13.5 / (pow((fault_current / pickup_current), 1) - 1)) * time_multiplier_setting;
     printf("Trip time (Very Inverse): %.2f seconds\n", trip_time);
     break;
     case 2: //Extremely Inverse
-    trip_time = (80 / (pow((pickup_current / fault_current), 2) - 1)) * time_multiplier_setting;
+    trip_time = (80 / (pow((fault_current / pickup_current), 2) - 1)) * time_multiplier_setting;
     printf("Trip time (Extremely Inverse): %.2f seconds\n", trip_time);
     break;
  case 3: // Long time standard inverse
-    trip_time = (120/ (pow((pickup_current / fault_current), 1) - 1)) * time_multiplier_setting;
+    trip_time = (120/ (pow((fault_current / pickup_current), 1) - 1)) * time_multiplier_setting;
     printf("Trip time (Long time standard inverse): %.2f seconds\n", trip_time);
     break;
     default:
@@ -60,19 +64,23 @@ int calculate_trip_time_ieee(double pickup_current, double fault_current,
         printf("Invalid input values.\n");
         return -1; // Error code for invalid input
     }
+    if (fault_current <= pickup_current) {
+        printf("Fault current is at or below pickup: the relay will not trip.\n");
+        return -3; // Error code for no trip
+    }
 
     switch (IEEECurveType) 
     {
-    case 3: // Moderate Inverse
-        trip_time = ((.0515 / (pow((pickup_current / fault_current), .02)-1))+.114 ) * time_multiplier_setting;
+    case moderateInverse:
+        trip_time = ((.0515 / (pow((fault_current / pickup_current), .02)-1))+.114 ) * time_multiplier_setting;
         printf("Trip time (Moderate Inverse): %.2f seconds\n", trip_time);
         break;
-    case 4: // Very Inverse
-        trip_time = ((19.61/ (pow((pickup_current / fault_current), 2)-1))+.491 ) * time_multiplier_setting;
+    case VeryInverse:
+        trip_time = ((19.61/ (pow((fault_current / pickup_current), 2)-1))+.491 ) * time_multiplier_setting;
         printf("Trip time (Very Inverse): %.2f seconds\n", trip_time);
         break;
-    case 5: // Extremely Inverse
-        trip_time = ((28.2 / (pow((pickup_current / fault_current), 2)-1))+.1217 ) * time_multiplier_setting;
+    case ExtremelyInverse:
+        trip_time = ((28.2 / (pow((fault_current / pickup_current), 2)-1))+.1217 ) * time_multiplier_setting;
         printf("Trip time (Extremely Inverse): %.2f seconds\n", trip_time);
         break;
     default:

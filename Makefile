@@ -8,7 +8,7 @@ OBJECTS=$(SOURCES:.c=.o)
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET) -lm
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 clean:
